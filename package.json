@@ -1,5 +1,5 @@
 {
-  "name": "@ksgl/adonis4-soft-deletes",
+  "name": "adonis4-soft-deletes",
   "version": "3.0.1",
   "description": "Basic implementation for soft deletes in AdonisJS",
   "main": "src/SoftDeletes/index.js",

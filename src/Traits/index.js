@@ -11,15 +11,16 @@
 class SoftDeletes {
 
   register(Model, customOptions = {}) {
-    const defaultOptions = { tableName: Model.table, fieldName: "deleted_at" }
+    const defaultOptions = { tableName: Model.table, fieldName: "deleted_at", hideSoftDeletedRows: true }
     const options = Object.assign(defaultOptions, customOptions)
 
     Model.$hooks.before._events.push("softdelete")
     Model.$hooks.after._events.push("softdelete")
 
-
     Model.addGlobalScope(builder => {
-      builder.whereNull(`${options.tableName}.${options.fieldName}`);
+      if (options.hideSoftDeletedRows) {
+        builder.whereNull(`${options.tableName}.${options.fieldName}`);
+      }
     }, 'soft_deletes');
 
 
@@ -61,7 +62,6 @@ class SoftDeletes {
     }
 
     Model.prototype.restore = async function () {
-
       await Model.$hooks.before.exec('restore', this)
       if (await this.isSoftDeleted()) {
         this.unfreeze();
@@ -69,7 +69,6 @@ class SoftDeletes {
         await this.save();
       }
       await Model.$hooks.after.exec('restore', this)
-
     }
 
     Model.prototype.isSoftDeleted = async function () {

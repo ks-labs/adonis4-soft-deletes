@@ -14,7 +14,7 @@
 
 - Every query has been changed to use _tableName.fieldName_ format instead of just _fieldName_ due to ambiguous field errors
 - Package now works with manyThrough relations
-- Due to core Adonis changes 2 tests are failing but are still working as intended 
+- Due to core Adonis changes 2 tests are failing but are still working as intended
 
 
 ## Introduction
@@ -26,10 +26,10 @@ Make sure to install it using `npm` or `yarn`.
 
 ```bash
 # npm
-npm i @backspacerhino/soft-deletes
+npm i @ksgl/adonis4-soft-deletes
 
 # yarn
-yarn add @backspacerhino/soft-deletes
+yarn add @ksgl/adonis4-soft-deletes
 ```
 
 ## Provider registration
@@ -39,7 +39,7 @@ Make sure to register the provider inside `start/app.js` file.
 ```js
 const providers = [
   ...
-  '@backspacerhino/soft-deletes/providers/SoftDeletesProvider',
+  '@ksgl/adonis4-soft-deletes/providers/SoftDeletesProvider',
   ...
 ]
 ```
@@ -87,12 +87,14 @@ const Model = use('Model')
 class Post extends Model {
   static boot () {
     super.boot()
-    this.addTrait('@provider:SoftDeletes', {fieldName: "time_of_deletion" })
+    this.addTrait('@provider:SoftDeletes', { fieldName: "deleted_at", hideSoftDeletedRows: true })
   }
 }
 ```
 
-> NOTE: Make sure that your model table has `deleted_at` datetime column (or whatever your *fieldName* name is)  
+> NOTE: Make sure that your model table has `deleted_at` datetime column (or whatever your *fieldName* name is)
+
+> NOTE: By default it hide any deleted rows, to show deleted rows by default use `hideSoftDeletedRows` = false to disable filtering
 
 > NOTE: If the model has this trait, upon delete() we will soft delete, if you want to delete then call forceDelete()
 

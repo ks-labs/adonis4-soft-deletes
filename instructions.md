@@ -4,7 +4,7 @@ Make sure to register the soft deletes provider inside `start/app.js`
 
 ```js
 const providers = [
-  '@backspacerhino/adonis-soft-deletes/providers/SoftDeletesProvider'
+  '@ksgl/adonis4-soft-deletes/providers/SoftDeletesProvider'
 ]
 ```
 
